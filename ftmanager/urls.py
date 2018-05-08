@@ -20,12 +20,16 @@ from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework.routers import DefaultRouter
 
 from runner.views import RunnerViewSet
+from fio.views import PresetViewSet, ScenarioViewSet, TestcaseViewSet
 
 router = DefaultRouter()
 router.register(r'runners', RunnerViewSet)
+router.register(r'fio/presets', PresetViewSet)
+router.register(r'fio/scenarios', ScenarioViewSet)
+router.register(r'fio/testcases', TestcaseViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^api/token/', obtain_auth_token, name='api-token'),
-    url(r'^api/', include(router.urls))
+    url(r'^api/', include(router.urls)),
 ]
