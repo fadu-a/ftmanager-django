@@ -1,0 +1,241 @@
+[
+  {
+    "model": "fio.testcase",
+    "pk": 1,
+    "fields": {
+      "name": "128KSeqWR_QD128TC1",
+      "extra": {
+        "global": "throughput",
+        "filename": "nvme0n1",
+        "readwrite": "write",
+        "blocksize": "128K",
+        "iodepth": 128,
+        "numjobs": 1,
+        "runtime": 5000
+      }
+    }
+  },
+  {
+    "model": "fio.testcase",
+    "pk": 2,
+    "fields": {
+      "name": "128KSeqRD_QD128TC1",
+      "extra": {
+        "global": "throughput",
+        "filename": "nvme0n1",
+        "readwrite": "read",
+        "blocksize": "128K",
+        "iodepth": 128,
+        "numjobs": 1,
+        "runtime": 5000
+      }
+    }
+  },
+  {
+    "model": "fio.testcase",
+    "pk": 3,
+    "fields": {
+      "name": "precond",
+      "extra": {
+        "global": "precond",
+        "filename": "nvme0n1",
+        "readwrite": "write",
+        "rwmixwrite": 0,
+        "blocksize": "128K",
+        "blockalign": "128K",
+        "size": "100%",
+        "iodepth": 128,
+        "numjobs": 1
+      }
+    }
+  },
+  {
+    "model": "fio.testcase",
+    "pk": 4,
+    "fields": {
+      "name": "4KRndWR_QD1TC1",
+      "extra": {
+        "global": "latency",
+        "filename": "nvme0n1",
+        "readwrite": "randwrite",
+        "rwmixwrite": 0,
+        "blocksize": "4K",
+        "iodepth": 1,
+        "numjobs": 1,
+        "runtime": 5000
+      }
+    }
+  },
+  {
+    "model": "fio.testcase",
+    "pk": 5,
+    "fields": {
+      "name": "4KRndRD_QD1TC1",
+      "extra": {
+        "global": "latency",
+        "filename": "nvme0n1",
+        "readwrite": "randread",
+        "rwmixwrite": 0,
+        "blocksize": "4K",
+        "iodepth": 128,
+        "numjobs": 1,
+        "runtime": 5000
+      }
+    }
+  },
+  {
+    "model": "fio.testcase",
+    "pk": 6,
+    "fields": {
+      "name": "4KRndWR_QD128TC4",
+      "extra": {
+        "global": "iops",
+        "filename": "nvme0n1",
+        "readwrite": "randwrite",
+        "rwmixwrite": 0,
+        "blocksize": "4K",
+        "iodepth": 128,
+        "iodepth_batch": 16,
+        "iodepth_batch_complete": 16,
+        "numjobs": 4,
+        "runtime": 3600
+      }
+    }
+  },
+  {
+    "model": "fio.testcase",
+    "pk": 7,
+    "fields": {
+      "name": "4KRndRD_QD128TC4",
+      "extra": {
+        "global": "iops",
+        "filename": "nvme0n1",
+        "readwrite": "randread",
+        "rwmixwrite": 0,
+        "blocksize": "4K",
+        "iodepth": 128,
+        "iodepth_batch": 16,
+        "iodepth_batch_complete": 16,
+        "numjobs": 4,
+        "runtime": 3600
+      }
+    }
+  },
+  {
+    "model": "fio.scenario",
+    "pk": 1,
+    "fields": {
+      "name": "throughput"
+    }
+  },
+  {
+    "model": "fio.scenario",
+    "pk": 2,
+    "fields": {
+      "name": "sync-latency"
+    }
+  },
+  {
+    "model": "fio.scenario",
+    "pk": 3,
+    "fields": {
+      "name": "iops_async-latency"
+    }
+  },
+  {
+    "model": "fio.preset",
+    "pk": 1,
+    "fields": {
+      "name": "throughput",
+      "scenario": 1
+    }
+  },
+  {
+    "model": "fio.preset",
+    "pk": 2,
+    "fields": {
+      "name": "sync-latency",
+      "scenario": 2
+    }
+  },
+  {
+    "model": "fio.preset",
+    "pk": 3,
+    "fields": {
+      "name": "iops_async-latency",
+      "scenario": 3
+    }
+  },
+  {
+    "model": "fio.job",
+    "pk": 1,
+    "fields": {
+      "testcase": 1,
+      "scenario": 1,
+      "order": 1
+    }
+  },
+  {
+    "model": "fio.job",
+    "pk": 2,
+    "fields": {
+      "testcase": 2,
+      "scenario": 1,
+      "order": 2
+    }
+  },
+  {
+    "model": "fio.job",
+    "pk": 3,
+    "fields": {
+      "testcase": 3,
+      "scenario": 2,
+      "order": 1
+    }
+  },
+  {
+    "model": "fio.job",
+    "pk": 4,
+    "fields": {
+      "testcase": 3,
+      "scenario": 2,
+      "order": 2
+    }
+  },
+  {
+    "model": "fio.job",
+    "pk": 5,
+    "fields": {
+      "testcase": 4,
+      "scenario": 2,
+      "order": 3
+    }
+  },
+  {
+    "model": "fio.job",
+    "pk": 6,
+    "fields": {
+      "testcase": 5,
+      "scenario": 2,
+      "order": 4
+    }
+  },
+  {
+    "model": "fio.job",
+    "pk": 7,
+    "fields": {
+      "testcase": 6,
+      "scenario": 3,
+      "order": 1
+    }
+  },
+  {
+    "model": "fio.job",
+    "pk": 8,
+    "fields": {
+      "testcase": 7,
+      "scenario": 3,
+      "order": 2
+    }
+  }
+]
