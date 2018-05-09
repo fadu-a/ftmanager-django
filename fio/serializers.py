@@ -45,4 +45,4 @@ class PresetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Preset
-        fields = ('url', 'name', 'scenario')
+        fields = ('url', 'id', 'name', 'scenario')
