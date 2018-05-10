@@ -22,9 +22,10 @@ class RunnerViewSet(viewsets.ModelViewSet):
 
         try:
             resp = requests.get(req_url)
-            serializer = self.get_serializer(runner, data=resp.json(), partial=True)
-            if serializer.is_valid():
-                serializer.save()
+            runner.status = 1
+            runner.info = resp.json()
+            runner.save()
+            serializer = self.get_serializer(runner)
             return Response(serializer.data)
         except requests.ConnectionError:
             content = {'error': 'internal server error'}
