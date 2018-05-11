@@ -20,13 +20,15 @@ from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework.routers import DefaultRouter
 
 from runner.views import RunnerViewSet
-from fio.views import PresetViewSet, ScenarioViewSet, TestcaseViewSet
+from fio.views import PresetViewSet, ScenarioViewSet, TestcaseViewSet, ResultViewSet, IoLogViewSet
 
 router = DefaultRouter()
 router.register(r'runners', RunnerViewSet)
 router.register(r'fio/presets', PresetViewSet)
 router.register(r'fio/scenarios', ScenarioViewSet)
 router.register(r'fio/testcases', TestcaseViewSet)
+router.register(r'fio/results', ResultViewSet)
+router.register(r'fio/io_logs', IoLogViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

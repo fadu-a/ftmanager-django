@@ -28,7 +28,6 @@ class ScenarioSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def create(self, validated_data):
-        print(validated_data)
         jobs_data = validated_data.pop('job_set')
         scenario = models.Scenario.objects.create(**validated_data)
         for job_data in jobs_data:
@@ -46,3 +45,35 @@ class PresetSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Preset
         fields = ('url', 'id', 'name', 'scenario')
+
+
+class ResultSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Result
+        fields = ('url', 'id', 'status', 'test_date', 'runner', 'scenario')
+
+    @transaction.atomic
+    def create(self, validated_data):
+        result = models.Result.objects.create(**validated_data)
+        for job in result.scenario.job_set.all():
+            models.IoLog.objects.create(job=job, result=result)
+        return result
+
+
+class IoLogSerializer(serializers.ModelSerializer):
+    order = serializers.ReadOnlyField(source='job.order')
+    name = serializers.ReadOnlyField(source='job.testcase.name')
+    configs = serializers.ReadOnlyField(source='job.testcase.extra')
+
+    class Meta:
+        model = models.IoLog
+        fields = ('id', 'order', 'name', 'configs')
+
+
+class TestSerializer(serializers.ModelSerializer):
+    name = serializers.ReadOnlyField(source='scenario.name')
+    testcases = IoLogSerializer(source='io_logs', many=True)
+
+    class Meta:
+        model = models.Result
+        fields = ('id', 'name', 'testcases')
