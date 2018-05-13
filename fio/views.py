@@ -39,9 +39,9 @@ class ResultViewSet(viewsets.ModelViewSet):
 
     def send_to_runner(self, result):
         serializer = serializers.TestSerializer(result)
-        # TODO: generate url with runner info
         # TODO: request error handling
-        requests.post('url will be determined!', json=serializer.data)
+        url = result.runner_info()
+        requests.post(url, json=serializer.data)
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
