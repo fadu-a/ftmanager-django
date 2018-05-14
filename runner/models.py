@@ -28,6 +28,9 @@ class Runner(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    def url(self):
+        return "http://{}:{}".format(self.host, self.port)
+
     def status_request_url(self):
         return f"http://{self.host}:{self.port}/status"
 

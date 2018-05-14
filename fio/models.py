@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.postgres.fields import ArrayField, JSONField
 from django.utils.translation import ugettext_lazy as _
+from runner.models import Runner
 
 
 class Testcase(models.Model):
@@ -42,6 +43,9 @@ class Result(models.Model):
     test_date = models.DateTimeField(auto_now_add=True)
     scenario = models.ForeignKey('Scenario', on_delete=models.CASCADE)
     runner = models.ForeignKey('runner.Runner', on_delete=models.CASCADE)
+
+    def test_request_url(self):
+        return "{}/start".format(self.runner.url())
 
 
 class IoLog(models.Model):
