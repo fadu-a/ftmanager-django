@@ -40,7 +40,7 @@ class ResultViewSet(viewsets.ModelViewSet):
     def send_to_runner(self, result):
         serializer = serializers.TestSerializer(result)
         # TODO: request error handling
-        url = result.runner_info()
+        url = result.test_request_url()
         requests.post(url, json=serializer.data)
 
     def create(self, request, *args, **kwargs):

@@ -44,10 +44,8 @@ class Result(models.Model):
     scenario = models.ForeignKey('Scenario', on_delete=models.CASCADE)
     runner = models.ForeignKey('runner.Runner', on_delete=models.CASCADE)
 
-    def runner_info(self):
-        runner = Runner.objects.get(id=self.runner_id)
-        address = "http://" + str(runner.host) + ":" + str(runner.port) + "/"
-        return address
+    def test_request_url(self):
+        return "{}/start".format(self.runner.url())
 
 
 class IoLog(models.Model):
