@@ -47,10 +47,22 @@ class PresetSerializer(serializers.ModelSerializer):
         fields = ('url', 'id', 'name', 'scenario')
 
 
+class IoLogReadSerializer(serializers.ModelSerializer):
+    order = serializers.ReadOnlyField(source='job.order')
+    testcase_id = serializers.ReadOnlyField(source='job.testcase.id')
+    testcase_name = serializers.ReadOnlyField(source='job.testcase.name')
+
+    class Meta:
+        model = models.IoLog
+        fields = ('id', 'order', 'testcase_id', 'testcase_name', 'data')
+
+
 class ResultSerializer(serializers.ModelSerializer):
+    io_logs = IoLogReadSerializer(many=True, read_only=True)
+
     class Meta:
         model = models.Result
-        fields = ('url', 'id', 'status', 'test_date', 'runner', 'scenario')
+        fields = ('url', 'id', 'status', 'test_date', 'runner', 'scenario', 'io_logs')
 
     @transaction.atomic
     def create(self, validated_data):
@@ -60,7 +72,7 @@ class ResultSerializer(serializers.ModelSerializer):
         return result
 
 
-class IoLogSerializer(serializers.ModelSerializer):
+class IoLogSerializer2(serializers.ModelSerializer):
     order = serializers.ReadOnlyField(source='job.order')
     name = serializers.ReadOnlyField(source='job.testcase.name')
     configs = serializers.ReadOnlyField(source='job.testcase.extra')
@@ -72,7 +84,7 @@ class IoLogSerializer(serializers.ModelSerializer):
 
 class TestSerializer(serializers.ModelSerializer):
     name = serializers.ReadOnlyField(source='scenario.name')
-    testcases = IoLogSerializer(source='io_logs', many=True)
+    testcases = IoLogSerializer2(source='io_logs', many=True)
 
     class Meta:
         model = models.Result

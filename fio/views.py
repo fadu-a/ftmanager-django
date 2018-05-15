@@ -18,6 +18,16 @@ class ModelExceptUpdateViewSet(mixins.CreateModelMixin,
     pass
 
 
+class ActionSerializerMixin(object):
+    action_serializers = {}
+
+    def get_serializer_class(self):
+        if self.action in self.action_serializers:
+            return self.action_serializers.get(self.action, None)
+        else:
+            return super().get_serializer_class()
+
+
 class TestcaseViewSet(ModelExceptUpdateViewSet):
     queryset = models.Testcase.objects.all()
     serializer_class = serializers.TestcaseSerializer
@@ -56,7 +66,8 @@ class ResultViewSet(viewsets.ModelViewSet):
 
 class IoLogViewSet(viewsets.GenericViewSet):
     queryset = models.IoLog.objects.all()
-    serializer_class = serializers.IoLogSerializer
+    # serializer_class = serializers.IoLogSerializer
+
 
     @action(methods=['put'], detail=True)
     def append(self, request, *args, **kwargs):
@@ -65,3 +76,4 @@ class IoLogViewSet(viewsets.GenericViewSet):
         io_log.data.append(request.data)
         io_log.save()
         return Response({'status': 'ok'}, status=status.HTTP_200_OK)
+
