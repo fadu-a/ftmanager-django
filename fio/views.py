@@ -45,10 +45,10 @@ class PresetViewSet(viewsets.ReadOnlyModelViewSet):
 
 class ResultViewSet(viewsets.ModelViewSet):
     queryset = models.Result.objects.all()
-    serializer_class = serializers.ResultSerializer
+    serializer_class = serializers.ManagerResultSerializer
 
     def send_to_runner(self, result):
-        serializer = serializers.TestSerializer(result)
+        serializer = serializers.RunnerResultSerializer(result)
         # TODO: request error handling
         url = result.test_request_url()
         requests.post(url, json=serializer.data)
@@ -68,7 +68,6 @@ class IoLogViewSet(viewsets.GenericViewSet):
     queryset = models.IoLog.objects.all()
     # serializer_class = serializers.IoLogSerializer
 
-
     @action(methods=['put'], detail=True)
     def append(self, request, *args, **kwargs):
         # TODO: validation check
@@ -76,4 +75,3 @@ class IoLogViewSet(viewsets.GenericViewSet):
         io_log.data.append(request.data)
         io_log.save()
         return Response({'status': 'ok'}, status=status.HTTP_200_OK)
-
