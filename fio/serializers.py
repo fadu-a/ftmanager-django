@@ -46,7 +46,7 @@ class PresetSerializer(serializers.ModelSerializer):
         fields = ('url', 'id', 'name', 'scenario')
 
 
-class ManagerIoLogSerializer(serializers.ModelSerializer):
+class ClientIoLogSerializer(serializers.ModelSerializer):
     job_order = serializers.ReadOnlyField(source='job.order')
     job_testcase_id = serializers.ReadOnlyField(source='job.testcase.id')
     job_testcase_name = serializers.ReadOnlyField(source='job.testcase.name')
@@ -56,8 +56,8 @@ class ManagerIoLogSerializer(serializers.ModelSerializer):
         fields = ('id', 'job_order', 'job_testcase_id', 'job_testcase_name', 'data')
 
 
-class ManagerResultSerializer(serializers.ModelSerializer):
-    io_logs = ManagerIoLogSerializer(many=True, read_only=True)
+class ClientResultSerializer(serializers.ModelSerializer):
+    io_logs = ClientIoLogSerializer(many=True, read_only=True)
 
     class Meta:
         model = models.Result

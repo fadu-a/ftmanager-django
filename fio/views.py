@@ -45,7 +45,7 @@ class PresetViewSet(viewsets.ReadOnlyModelViewSet):
 
 class ResultViewSet(viewsets.ModelViewSet):
     queryset = models.Result.objects.all()
-    serializer_class = serializers.ManagerResultSerializer
+    serializer_class = serializers.ClientResultSerializer
 
     def send_to_runner(self, result):
         serializer = serializers.RunnerResultSerializer(result)
