@@ -18,6 +18,16 @@ class ModelExceptUpdateViewSet(mixins.CreateModelMixin,
     pass
 
 
+class ActionSerializerMixin(object):
+    action_serializers = {}
+
+    def get_serializer_class(self):
+        if self.action in self.action_serializers:
+            return self.action_serializers.get(self.action, None)
+        else:
+            return super().get_serializer_class()
+
+
 class TestcaseViewSet(ModelExceptUpdateViewSet):
     queryset = models.Testcase.objects.all()
     serializer_class = serializers.TestcaseSerializer
@@ -35,10 +45,10 @@ class PresetViewSet(viewsets.ReadOnlyModelViewSet):
 
 class ResultViewSet(viewsets.ModelViewSet):
     queryset = models.Result.objects.all()
-    serializer_class = serializers.ResultSerializer
+    serializer_class = serializers.ClientResultSerializer
 
     def send_to_runner(self, result):
-        serializer = serializers.TestSerializer(result)
+        serializer = serializers.RunnerResultSerializer(result)
         # TODO: request error handling
         url = result.test_request_url()
         requests.post(url, json=serializer.data)
@@ -56,7 +66,7 @@ class ResultViewSet(viewsets.ModelViewSet):
 
 class IoLogViewSet(viewsets.GenericViewSet):
     queryset = models.IoLog.objects.all()
-    serializer_class = serializers.IoLogSerializer
+    # serializer_class = serializers.IoLogSerializer
 
     @action(methods=['put'], detail=True)
     def append(self, request, *args, **kwargs):
